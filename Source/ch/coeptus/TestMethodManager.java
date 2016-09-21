@@ -12,17 +12,21 @@ import ch.nolix.common.container.List;
 import ch.nolix.common.container.SequencePattern;
 import ch.nolix.common.dataProvider.FinanceDataProvider;
 import ch.nolix.common.dataProvider.VolumeCandleStick;
+import ch.nolix.common.functional.IBooleanNorm;
+import ch.nolix.common.functional.ISelector;
 import ch.nolix.common.util.Time;
 
 //class
 public class TestMethodManager {
 
 	//static method
-	public static void testCandleSticks(
+	public static double testCandleSticksAndGetSuccessRatio(
 		String productSymbol,
 		Time startDate,
 		Time endDate,
-		SequencePattern<VolumeCandleStick> sequencePattern
+		SequencePattern<VolumeCandleStick> sequencePattern,
+		ISelector<List<VolumeCandleStick>> sequenceCondition,
+		IBooleanNorm<List<VolumeCandleStick>> successNorm
 	) {
 		final List<VolumeCandleStick> candleSticks
 		= FinanceDataProvider.getDailyCandleSticks(
@@ -31,10 +35,17 @@ public class TestMethodManager {
 			endDate
 		);
 		
-		List<List<VolumeCandleStick>> sequences = candleSticks.getSequences(sequencePattern);
+		//System.out.println("hammers of " + productSymbol + ": " + candleSticks.getCount(cs -> cs.isHammer(0.6)));
+		//System.out.println("hammers with body below next of " + productSymbol + ": " + candleSticks.getSequences(sequencePattern).getAll(sequenceCondition).getSize());
 		
-		double successRatio = sequences.getRatio(s -> s.getRefLast().isBullish());
-		System.out.println("Success ration of " + productSymbol + ": " + successRatio);
+		List<List<VolumeCandleStick>> sequences
+		= candleSticks.getSequences(sequencePattern)
+		.getAll(sequenceCondition);
+		
+		double successRatio = sequences.getRatio(s -> successNorm.getValue(s));
+		//System.out.println(productSymbol + " " + sequences.getSize());
+		System.out.println("Success ratio of " + productSymbol + ": " + successRatio);
+		return successRatio;
 	}
 	
 	//private constructor
