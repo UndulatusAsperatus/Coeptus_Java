@@ -35,8 +35,8 @@ public class TestMethodManager {
 			endDate
 		);
 		
-		//System.out.println("hammers of " + productSymbol + ": " + candleSticks.getCount(cs -> cs.isHammer(0.6)));
-		//System.out.println("hammers with body below next of " + productSymbol + ": " + candleSticks.getSequences(sequencePattern).getAll(sequenceCondition).getSize());
+		System.out.println("hammers of " + productSymbol + ": " + candleSticks.getCount(cs -> cs.isHammer(0.6)));
+		System.out.println("hammers with body below next of " + productSymbol + ": " + candleSticks.getSequences(sequencePattern).getAll(sequenceCondition).getSize());
 		
 		List<List<VolumeCandleStick>> sequences
 		= candleSticks.getSequences(sequencePattern)

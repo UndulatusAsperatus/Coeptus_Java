@@ -79,7 +79,7 @@ final class Launcher {
 		for (String ps: NYSEProductSymbolManager.getProductSymbols().addAtEnd("NMR", "ABB", "V", "B", "C", "NOK", "NTDOY", "OAS", "PER", "PWR", "Q", "SBUX", "W", "TSLA", "UTX", "UA", "UNH", "VZ", "VRX", "WMT", "WFC", "WMB", "YUM", "YELP", "LAZ", "GS", "UBS", "CS", "MS", "DB")) {		
 			s += TestMethodManager.testCandleSticksAndGetSuccessRatio(
 				ps,
-				new Time(2015, 1, 1),
+				new Time(2000, 1, 1),
 				new Time(2016, 9, 21),
 				sequencePattern,
 				sequenceCondition,
