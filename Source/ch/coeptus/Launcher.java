@@ -25,7 +25,7 @@ final class Launcher {
 	public static void main(String[] args) {
 		
 		double alpha = 0.0098;
-		int successorCount = 55;
+		int successorCount = 5;
 		
 		//Create sequence pattern.
 		SequencePattern<VolumeCandleStick> sequencePattern
