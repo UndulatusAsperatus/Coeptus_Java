@@ -2,7 +2,7 @@
  * file:	Launcher.java
  * author:	Silvan Wyss
  * month:	2016-09
- */
+ */ XXX
 
 //package declaration
 package ch.coeptus;
