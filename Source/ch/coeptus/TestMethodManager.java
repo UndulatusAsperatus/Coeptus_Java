@@ -33,20 +33,22 @@ public class TestMethodManager {
 			endDate
 		);
 		
-		System.out.println("hammers of " + productSymbol + ": " + candleSticks.getCount(cs -> cs.isHammer(0.6)));
+		System.out.println("hammers of " + productSymbol + ": " + candleSticks.getCount(cs -> cs.getLowerWick() / cs.getLength() >= 0.45));
 		
-		SequencePattern<VolumeCandleStick> p
+		SequencePattern<VolumeCandleStick> hammerWithBodyBelowNextPattern
 		= new SequencePattern<VolumeCandleStick>()
-		.addNextWithCondition(vcs -> vcs.isHammer(0.6))
+		.addNextWithCondition(vcs -> vcs.getLowerWick() / vcs.getLength() >= 0.45)
 		.addBlankForNext()
 		.addSequenceCondition(s -> s.getRefAt(1).bodyIsBelowBodyOf(s.getRefAt(2)));
-		System.out.println("hammers with body below next of " + productSymbol + ": " + candleSticks.getSequences(p).getSize());
+		System.out.println("hammers with body below next of " + productSymbol + ": " + candleSticks.getSequences(hammerWithBodyBelowNextPattern).getSize());
 		
 		List<List<VolumeCandleStick>> sequences
 		= candleSticks.getSequences(sequencePattern);
 		
+		System.out.println("potential sequences  of " + productSymbol + ": " + sequences.getSize()); 
+		System.out.println("successful sequences  of " + productSymbol + ": " + sequences.getCount(cs -> successNorm.getValue(cs))); 
+		
 		double successRatio = sequences.getRatio(s -> successNorm.getValue(s));
-		//System.out.println(productSymbol + " " + sequences.getSize());
 		System.out.println("Success ratio of " + productSymbol + ": " + successRatio);
 		return successRatio;
 	}
